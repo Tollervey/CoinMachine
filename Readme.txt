@@ -4,3 +4,4 @@
 	b) https://algorithmist.com/wiki/Coin_change
 3) Given 2 above, you'll therefore see unit tests and CoinMachineAnalysis files (pdf or visio) that I used to help with my analysis, understanding, coding and debugging
 4) The the test cases (except for £100) mentioned in the spec all run well within 1 second. 
+5) To see the code working, simply run all the tests within the file CalculatorTests.cs within CoinMachine.BusinessLogicTests project
