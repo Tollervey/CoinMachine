@@ -63,7 +63,6 @@ namespace CoinMachine.BusinessLogic
             {
                // _recursiveCounter++;
                 _coinsInEachSolutionCounter.Add(incrementCoinsInSolutionCounter);
-                incrementCoinsInSolutionCounter = 0;
                 return 1;
             }
 
