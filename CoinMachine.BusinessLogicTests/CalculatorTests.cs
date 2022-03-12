@@ -11,7 +11,7 @@ namespace CoinMachine.BusinessLogicTests
         #region Tests not defined in spec
 
         [TestMethod]
-        public void Count_WithValidValues_ExpectedReturned()
+        public void Count_WithTestCurrency_ExpectedReturned()
         {
             // Arrange
             var amountDeposited = 4; // 4p
@@ -27,7 +27,7 @@ namespace CoinMachine.BusinessLogicTests
         }
 
         [TestMethod]
-        public void GetSolutionsCount_WithValidValues_ExpectedReturned()
+        public void GetSolutionsCount_WithTestCurrency_ExpectedReturned()
         {
             // Arrange
             var amountDeposited = 0.04m; // 4p
@@ -41,7 +41,22 @@ namespace CoinMachine.BusinessLogicTests
         }
 
         [TestMethod]
-        public void GetSolutionsOddCount_WithValidValues_ExpectedReturned()
+        public void GetSolutionsCount_WithTestCurrency2_ExpectedReturned()
+        {
+            // Arrange
+            var amountDeposited = 0.1m; // 10p
+            var calculator = new Calculator<TestCurrency2>();
+
+            // Act
+            var result = calculator.GetSolutionsCount(amountDeposited);
+
+            // Assert
+            //{2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}
+            Assert.AreEqual(5, result.SolutionsCount);
+        }
+
+        [TestMethod]
+        public void GetSolutionsOddCount_WithTestCurrency_ExpectedReturned()
         {
             // Arrange
             var amountDeposited = 0.04m; // 4p
@@ -55,17 +70,34 @@ namespace CoinMachine.BusinessLogicTests
         }
 
         [TestMethod]
-        public void GetSolutionsCount_WithSterlingCurrency_ExpectedReturned()
+        public void GetSolutionsOddCount_WithTestCurrency2_ExpectedReturned()
         {
             // Arrange
-            var amountDeposited = 0.5m; // 50p
+            var amountDeposited = 0.1m; // 10p
+            var calculator = new Calculator<TestCurrency2>();
+
+            // Act
+            var result = calculator.GetSolutionsOddCount(amountDeposited);
+
+            // Assert
+            //{2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}
+            Assert.AreEqual(3, result);
+        }
+
+        [TestMethod]
+        [DataRow(0.5, 4)]
+        [DataRow(2, 41)]
+        public void GetSolutionsCount_WithSterlingCurrency_ExpectedReturned(double amountDeposited, int expected)
+        {
+            // Arrange
+            decimal amountDepositedAsDecimal = Convert.ToDecimal(amountDeposited);
             var calculator = new Calculator<PoundSterling>();
 
             // Act
-            var result = calculator.GetSolutionsCount(amountDeposited);
+            var result = calculator.GetSolutionsCount(amountDepositedAsDecimal);
 
             // Assert
-            Assert.AreEqual(4, result.SolutionsCount);
+            Assert.AreEqual(expected, result.SolutionsCount);
         }
 
         #endregion
@@ -79,7 +111,7 @@ namespace CoinMachine.BusinessLogicTests
         [DataRow(20, 23845)] // £20
         //[DataRow(50, 755144)] // £50 3.8 seconds
         //[DataRow(100, 11228725)] // 1.7 minutes
-        public void GetSolutionsOddCount_WithSterlingCurrency_ExpectedReturned(double amountDeposited, int expected)
+        public void GetSolutionsOddCount_WithPoundSterling_ExpectedReturned(double amountDeposited, int expected)
         {
             // Arrange
             var calculator = new Calculator<PoundSterling>();
@@ -100,7 +132,7 @@ namespace CoinMachine.BusinessLogicTests
         [DataRow("£20-", 23845)]
         //[DataRow("£50-", 755144)] // 3.8 second
         //[DataRow("£100-", 11228725)] // 1.7 minutes
-        public void GetChangeOddCoinCount_WithSterlingCurrency_ExpectedReturned(string input, int expected)
+        public void GetChangeOddCoinCount_WithPoundSterling_ExpectedReturned(string input, int expected)
         {
             // Arrange
             var calculator = new Calculator<PoundSterling>();
